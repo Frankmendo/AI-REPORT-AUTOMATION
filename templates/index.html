@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Report Automation</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <div class="topbar">
+        <h1>AI Report Automation</h1>
+        <span>|</span>
+        <span>Genera reportes profesionales desde Excel o CSV</span>
+    </div>
+
+    <div class="main">
+
+        <!-- STEPS -->
+        <div class="steps">
+            <div class="step active" id="step1">
+                <div class="step-num">1</div>
+                <span>Subir archivo</span>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step" id="step2">
+                <div class="step-num">2</div>
+                <span>Configurar reporte</span>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step" id="step3">
+                <div class="step-num">3</div>
+                <span>Descargar PDF</span>
+            </div>
+        </div>
+
+        <!-- SECCION 1: UPLOAD -->
+        <div id="section-upload">
+            <div class="upload-card">
+                <h2>Sube tu archivo</h2>
+                <p>Acepta archivos Excel (.xlsx) o CSV. Maximo 16MB.</p>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📊</div>
+                    <p class="upload-text">Arrastra tu archivo aqui</p>
+                    <p class="upload-hint">o haz clic para seleccionar</p>
+                    <input type="file" id="fileInput" accept=".csv,.xlsx">
+                </div>
+
+                <div class="file-selected" id="fileSelected"></div>
+                <button class="btn" id="uploadBtn" disabled>Continuar →</button>
+            </div>
+        </div>
+
+        <!-- SECCION 2: FILTERS -->
+        <div id="section-filters">
+            <div class="filters-grid">
+
+                <!-- Panel izquierdo -->
+                <div class="panel">
+                    <h3>⚙ Configurar Reporte</h3>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Columnas a incluir</span>
+                        <div class="checkbox-list" id="columnsList"></div>
+                    </div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Tipo de gráfico</span>
+                        <div class="chart-types">
+                            <div class="chart-type-btn selected" data-type="bar">📊 Barras</div>
+                            <div class="chart-type-btn" data-type="line">📈 Línea</div>
+                            <div class="chart-type-btn" data-type="pie">🥧 Pastel</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Moneda</span>
+                        <div class="chart-types currency-types">
+                            <div class="chart-type-btn selected" data-currency="$">$ USD</div>
+                            <div class="chart-type-btn" data-currency="S/">S/ Soles</div>
+                            <div class="chart-type-btn" data-currency="€">€ EUR</div>
+                            <div class="chart-type-btn" data-currency="">Sin símbolo</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Rango de filas</span>
+                        <div class="range-inputs">
+                            <input type="number" class="range-input" id="rowStart" placeholder="Desde" min="0">
+                            <span class="range-separator">→</span>
+                            <input type="number" class="range-input" id="rowEnd" placeholder="Hasta" min="1">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Secciones del PDF</span>
+                        <div class="sections-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" value="summary" checked> Resumen General
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" value="stats" checked> Estadisticas
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" value="anomalies" checked> Anomalias
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" value="charts" checked> Graficos
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel derecho: preview -->
+                <div class="panel">
+                    <h3>👁 Vista Previa</h3>
+                    <div class="preview-panel">
+                        <div class="preview-table-wrap">
+                            <table id="previewTable"></table>
+                        </div>
+                        <div class="plotly-wrap" id="plotlyChart"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="generate-bar">
+                <button class="btn-secondary" id="backBtn">← Volver</button>
+                <button class="btn" id="generateBtn">Generar PDF</button>
+            </div>
+        </div>
+
+        <!-- SECCION 3: RESULT -->
+        <div id="section-result">
+            <div class="result-card">
+                <div class="result-icon">✅</div>
+                <h2>Reporte Generado</h2>
+                <p>Tu reporte PDF esta listo para descargar.</p>
+                <div class="analysis-box" id="analysisText"></div>
+                <a class="btn-download" id="downloadBtn" href="#">⬇ Descargar Reporte PDF</a>
+                <button class="btn-restart" id="restartBtn">Analizar otro archivo</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SPINNER -->
+    <div class="spinner-overlay" id="spinner">
+        <div class="spinner"></div>
+        <div class="spinner-text" id="spinnerText">Procesando...</div>
+    </div>
+
+    <!-- ERROR -->
+    <div class="error-toast" id="errorToast"></div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
