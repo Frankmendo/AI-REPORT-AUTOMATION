@@ -2,6 +2,7 @@ import os
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import pandas as pd
 
 def generate_charts(df, output_folder, chart_type='bar'):
     charts = []
@@ -23,7 +24,10 @@ def generate_charts(df, output_folder, chart_type='bar'):
         x_col = text_cols[0] if text_cols else None
 
         if x_col and len(df) > 10:
+            order = df[x_col].unique()
             df_plot = df.groupby(x_col)[numeric_cols].sum().reset_index()
+            df_plot[x_col] = pd.Categorical(df_plot[x_col], categories=order, ordered=True)
+            df_plot = df_plot.sort_values(x_col)
         else:
             df_plot = df
 
