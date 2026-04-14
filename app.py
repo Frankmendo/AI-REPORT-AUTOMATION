@@ -20,6 +20,9 @@ app = Flask(__name__)
 UPLOAD_FOLDER = tempfile.gettempdir()
 OUTPUT_FOLDER = 'outputs'
 
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
