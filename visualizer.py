@@ -22,7 +22,7 @@ def generate_charts(df, output_folder, chart_type='bar'):
 
         x_col = text_cols[0] if text_cols else None
 
-        if x_col and len(df) > 100:
+        if x_col and len(df) > 10:
             df_plot = df.groupby(x_col)[numeric_cols].sum().reset_index()
         else:
             df_plot = df
